@@ -1,8 +1,19 @@
 import TransactionsRow from "./TransactionsRow";
 import './Transactions.css';
+import { getAllPayments } from "../../data/DataFunctions";
 
 const TransactionsTable = () => {
-return (
+
+    const payments = getAllPayments();
+    const allCountries = payments.map ( payment => payment.country);
+    const uniqueCountries = allCountries.filter( 
+        (country,index) => allCountries.indexOf(country) === index);
+    console.log(uniqueCountries);
+
+return (<div>
+    <select>
+        {uniqueCountries.map (country => <option key={country} value={country}>{country}</option>)}
+    </select>
     <table className="transactionsTable">
         <thead>
             <tr>
@@ -14,15 +25,14 @@ return (
             </tr>
         </thead>
         <tbody>
-            <TransactionsRow id="1" date="2022-11-10" country="USA" 
-            currency="USD" amount="17.55" />
-            <TransactionsRow id="2" date="2022-11-10" country="UK" 
-            currency="GBP" amount="19.06" />
-            <TransactionsRow id="3" date="2022-11-10" country="USA" 
-            currency="USD" amount="45.00" />
+            {payments.map( (payment, index) => {
+                return <TransactionsRow key={index} id={payment.id} date={payment.date}
+                country = {payment.country}  currency = {payment.currency} 
+                amount={payment.amount}   />
+            }   )   }
 
         </tbody>
-    </table>
+    </table></div>
 )
 }
 
