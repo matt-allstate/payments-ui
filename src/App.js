@@ -6,10 +6,6 @@ import mainFunction, { howLoopsWork, sampleFunction } from './ExploringLoops';
 
 function App() {
 
-  mainFunction();
-  sampleFunction();
-  howLoopsWork();
-
   return (
     <div>
       <Menu />

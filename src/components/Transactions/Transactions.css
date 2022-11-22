@@ -10,3 +10,10 @@
     padding: 3px;
     border: 1px solid #999;
 }
+
+.transactionsCountrySelector {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    max-width: fit-content;
+}
