@@ -4,7 +4,7 @@ import { getAllPayments } from "../../data/DataFunctions";
 import { useState } from "react";
 
 const TransactionsTable = () => {
-
+    //debugger;
     const payments = getAllPayments();
     const allCountries = payments.map ( payment => payment.country);
     // ["USA","FRANCE"]
