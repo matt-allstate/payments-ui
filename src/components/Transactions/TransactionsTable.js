@@ -8,6 +8,7 @@ const TransactionsTable = () => {
     const allCountries = payments.map ( payment => payment.country);
     const uniqueCountries = allCountries.filter( 
         (country,index) => allCountries.indexOf(country) === index);
+    //const uniqueCountries = [...new Set(allCountries)]
     console.log(uniqueCountries);
 
 return (<div>
