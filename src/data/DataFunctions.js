@@ -34,6 +34,21 @@ export const getAllPaymentsAxiosVersion  = () => {
             headers: {"Accept" : "application/json"}
             })
 }
-    
+
+export const getAllPaymentsForCountry  = (country) => {
+    console.log("getallpaymentsforcountry")
+    return axios({url : "http://localhost:8080/api/payment?country="+country,
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
+
+export const getCountries = ()  => {
+    console.log("getcountries")
+    return axios({url : "http://localhost:8080/api/country",
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
     
 

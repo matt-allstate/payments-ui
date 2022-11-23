@@ -1,6 +1,6 @@
 import TransactionsRow from "./TransactionsRow";
 import './Transactions.css';
-import { getAllPayments, getAllPaymentsAxiosVersion, getAllPaymentsFetchVersion } from "../../data/DataFunctions";
+import { getAllPayments, getAllPaymentsAxiosVersion, getAllPaymentsFetchVersion, getAllPaymentsForCountry, getCountries } from "../../data/DataFunctions";
 import { useEffect, useState } from "react";
 
 const TransactionsTable = () => {
@@ -9,12 +9,31 @@ const TransactionsTable = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect( () => {
-        loadData();
+        loadCountries();
     } , []);
 
-    const loadData = () => {
+    const [uniqueCountries, setUniqueCountries] = useState([])
+
+    const loadCountries = () => {
+        getCountries()
+        .then ( response => {
+            if (response.status === 200) {
+                setUniqueCountries(response.data);
+                setIsLoading(false);
+            }
+            else {
+                console.log("something went wrong");
+            }
+        })
+        .catch ( error => {
+            console.log("something went wrong", error)
+        })
+    }
+
+
+    const loadData = (country) => {
         
-        getAllPaymentsAxiosVersion()
+        getAllPaymentsForCountry(country)
             .then ( response => {
                 if (response.status === 200) {
                     setIsLoading(false);
@@ -32,24 +51,22 @@ const TransactionsTable = () => {
 
 
     //debugger;
+   
     
-    const allCountries = payments.map ( payment => payment.country);
-    // ["USA","FRANCE"]
-    const uniqueCountries = allCountries.filter( 
-        (country,index) => allCountries.indexOf(country) === index);
-    //const uniqueCountries = [...new Set(allCountries)]
-    
-    const [selectedCountry, setSelectedCountry] = useState(uniqueCountries[0]);
+    const [selectedCountry, setSelectedCountry] = useState("");
 
     const changeCountry = (event) => {
-        const option = event.target.options.selectedIndex;
-        setSelectedCountry(uniqueCountries[option]);
-        console.log(event.target.value);
+        const country = event.target.value;
+        setSelectedCountry(country);
+        setIsLoading(true)
+        loadData(country);
+        console.log(country);
     }
 
 return (<div>
     {!isLoading && <div className="transactionsCountrySelector">
-        Select country: <select onChange={changeCountry} >
+        Select country: <select onChange={changeCountry} defaultValue="">
+            <option value="" disabled={true}> ---select---</option>
             {uniqueCountries.map (country => <option key={country} value={country}>{country}</option>)}
         </select>
     </div>}
