@@ -1,43 +1,34 @@
 import TransactionsRow from "./TransactionsRow";
 import './Transactions.css';
-import { getAllPayments } from "../../data/DataFunctions";
-import { useState } from "react";
+import { getAllPayments, getAllPaymentsAxiosVersion, getAllPaymentsFetchVersion } from "../../data/DataFunctions";
+import { useEffect, useState } from "react";
 
 const TransactionsTable = () => {
 
     const [payments, setPayments] = useState([]);
-    const [isLoading, setIsLoading] = useState(0);
-    //0 = we haven't yet requested the data
-    //1 = we have requested the data but don't yet have it
-    //2 = we have the data
+    const [isLoading, setIsLoading] = useState(true);
 
-    const headers = new Headers({"Accept" : "application/json"})
+    useEffect( () => {
+        loadData();
+    } , []);
 
-    const paymentsPromise = fetch ("http://localhost:8080/api/payment", 
-         {
-            method: "GET",
-            headers : headers            
-        }
-    )
-
-    if (isLoading === 0) {
-        setIsLoading(1);
-        paymentsPromise.then ( response => {
-            if (response.ok) {
-                console.log("everything is ok");
-                const jsonDataPromise = response.json();
-                jsonDataPromise.then( data  => {
-                    setPayments(data);
-                    setIsLoading(2);
-                }  )
-            }
-            else {
-                console.log("something went wrong", response.status)
-            }
-            
-        }   )
+    const loadData = () => {
+        
+        getAllPaymentsAxiosVersion()
+            .then ( response => {
+                if (response.status === 200) {
+                    setIsLoading(false);
+                    setPayments(response.data);
+                }
+                else {
+                    console.log("something went wrong", response.status)
+                }
+            })
+            .catch( error => {
+                console.log("something went wrong", error);
+            })
     }
-
+    
 
 
     //debugger;
@@ -57,12 +48,12 @@ const TransactionsTable = () => {
     }
 
 return (<div>
-    {isLoading === 2 && <div className="transactionsCountrySelector">
+    {!isLoading && <div className="transactionsCountrySelector">
         Select country: <select onChange={changeCountry} >
             {uniqueCountries.map (country => <option key={country} value={country}>{country}</option>)}
         </select>
     </div>}
-    {isLoading !== 2 && <p style={{"text-align":"center"}} >Please wait... loading</p>}
+    {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
     <table className="transactionsTable">
         <thead>
             <tr>
