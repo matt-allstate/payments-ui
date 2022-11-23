@@ -4,8 +4,44 @@ import { getAllPayments } from "../../data/DataFunctions";
 import { useState } from "react";
 
 const TransactionsTable = () => {
+
+    const [payments, setPayments] = useState([]);
+    const [isLoading, setIsLoading] = useState(0);
+    //0 = we haven't yet requested the data
+    //1 = we have requested the data but don't yet have it
+    //2 = we have the data
+
+    const headers = new Headers({"Accept" : "application/json"})
+
+    const paymentsPromise = fetch ("http://localhost:8080/api/payment", 
+         {
+            method: "GET",
+            headers : headers            
+        }
+    )
+
+    if (isLoading === 0) {
+        setIsLoading(1);
+        paymentsPromise.then ( response => {
+            if (response.ok) {
+                console.log("everything is ok");
+                const jsonDataPromise = response.json();
+                jsonDataPromise.then( data  => {
+                    setPayments(data);
+                    setIsLoading(2);
+                }  )
+            }
+            else {
+                console.log("something went wrong", response.status)
+            }
+            
+        }   )
+    }
+
+
+
     //debugger;
-    const payments = getAllPayments();
+    
     const allCountries = payments.map ( payment => payment.country);
     // ["USA","FRANCE"]
     const uniqueCountries = allCountries.filter( 
@@ -21,11 +57,12 @@ const TransactionsTable = () => {
     }
 
 return (<div>
-    <div className="transactionsCountrySelector">
+    {isLoading === 2 && <div className="transactionsCountrySelector">
         Select country: <select onChange={changeCountry} >
             {uniqueCountries.map (country => <option key={country} value={country}>{country}</option>)}
         </select>
-    </div>
+    </div>}
+    {isLoading !== 2 && <p style={{"text-align":"center"}} >Please wait... loading</p>}
     <table className="transactionsTable">
         <thead>
             <tr>
