@@ -63,7 +63,7 @@ const TransactionsTable = () => {
 
 return (<>
     {!isLoading && <div className="transactionsCountrySelector">
-        Select country: <select onChange={changeCountry} defaultValue="">
+        Select country: <select onChange={changeCountry} defaultValue={selectedCountry}>
             <option value="" disabled={true}> ---select---</option>
             {uniqueCountries.map (country => <option key={country} value={country}>{country}</option>)}
         </select>
