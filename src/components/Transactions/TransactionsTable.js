@@ -1,7 +1,7 @@
 import TransactionsRow from "./TransactionsRow";
 import './Transactions.css';
 import { getAllPayments, getAllPaymentsAxiosVersion, getAllPaymentsFetchVersion, getAllPaymentsForCountry, getCountries } from "../../data/DataFunctions";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const TransactionsTable = () => {
 
@@ -48,8 +48,6 @@ const TransactionsTable = () => {
             })
     }
     
-
-
     //debugger;
    
     
@@ -63,7 +61,7 @@ const TransactionsTable = () => {
         console.log(country);
     }
 
-return (<div>
+return (<>
     {!isLoading && <div className="transactionsCountrySelector">
         Select country: <select onChange={changeCountry} defaultValue="">
             <option value="" disabled={true}> ---select---</option>
@@ -71,10 +69,12 @@ return (<div>
         </select>
     </div>}
     {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
+    {!isLoading &&
     <table className="transactionsTable">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Order Id</th>
                 <th>Date</th>
                 <th>Country</th>
                 <th>Currency</th>
@@ -95,12 +95,14 @@ return (<div>
                 .filter (payment => payment.country === selectedCountry)
                 .map( (payment, index) => {
                 return selectedCountry && <TransactionsRow key={index} id={payment.id} date={payment.date}
-                country = {payment.country}  currency = {payment.currency} 
+                country = {payment.country}  currency = {payment.currency} orderId={payment.orderId}
                 amount={payment.amount}   />
             }   )   }
 
         </tbody>
-    </table></div>
+    </table>
+    }
+    </>
 )
 }
 
