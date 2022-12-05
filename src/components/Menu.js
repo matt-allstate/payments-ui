@@ -1,10 +1,12 @@
+import {Link, NavLink} from 'react-router-dom';
+
 const Menu = () => {
     return (
     <div className="pageHeader" >
-        <h1>Payments Application</h1>
+        <h1><Link to="/">Payments Application</Link></h1>
         <ul className="nav">
-            <li>Find a transaction</li>
-            <li>New transaction</li>
+            <li><Link to="/find">Find a transaction</Link></li>
+            <li><NavLink to="/add">New transaction</NavLink></li>
         </ul>
     </div>);
 }

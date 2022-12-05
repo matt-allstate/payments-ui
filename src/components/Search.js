@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Search = (props) => {
 
@@ -6,6 +7,7 @@ const Search = (props) => {
     const [localSearchTerm, setLocalSearchTerm] = useState("");
     const [valid, setValid] = useState(true);
     const [touched, setTouched] = useState(false);
+    const navigate = useNavigate();
     
     const checkValidity = (value) => {
         setValid(value.trim().length > 0);
@@ -20,6 +22,7 @@ const Search = (props) => {
     const doSearch  = (event) => {
         event.preventDefault();
         props.setSearchTerm(localSearchTerm);
+        navigate(`/find/${localSearchTerm}`);
     }
 
     const clearForm = () => {
@@ -27,6 +30,7 @@ const Search = (props) => {
         setTouched(false);
         setValid(true);
         props.setSearchTerm("");
+        
     }
 
     return <div className="searchBox">

@@ -2,11 +2,15 @@ import TransactionsRow from "./TransactionsRow";
 import './Transactions.css';
 import { getAllPaymentsForCountry, getAllPaymentsForOrderId, getCountries } from "../../data/DataFunctions";
 import { useEffect, useState } from "react";
+import { useSearchParams } from 'react-router-dom';
 
 const TransactionsTable = (props) => {
 
     const [payments, setPayments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
 
     useEffect( () => {
         loadCountries();
@@ -68,12 +72,20 @@ const TransactionsTable = (props) => {
     
     const [selectedCountry, setSelectedCountry] = useState("");
 
+    useEffect( ()=> {
+        const country = searchParams.get("country");
+        if (country !== selectedCountry) {
+            setSelectedCountry(country);
+            loadData(country);
+        }
+     }, [] );
+
     const changeCountry = (event) => {
         const country = event.target.value;
         setSelectedCountry(country);
         setIsLoading(true)
         loadData(country);
-        console.log(country);
+        setSearchParams({"country" : country});
     }
 
 return (<>
