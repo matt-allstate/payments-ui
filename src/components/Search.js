@@ -22,6 +22,13 @@ const Search = (props) => {
         props.setSearchTerm(localSearchTerm);
     }
 
+    const clearForm = () => {
+        setLocalSearchTerm("");
+        setTouched(false);
+        setValid(true);
+        props.setSearchTerm("");
+    }
+
     return <div className="searchBox">
         <form onSubmit={doSearch}>
             <label htmlFor="orderId" >Order Id</label>
@@ -29,6 +36,7 @@ const Search = (props) => {
                 style ={{border: valid ? "1px solid #000" : "2px solid #f00"}}
             />
             <button type="submit" disabled={!valid || !touched}>Search</button>
+            <button onClick={clearForm} >Reset</button>
         </form>
     </div>
 }
