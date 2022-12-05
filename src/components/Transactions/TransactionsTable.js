@@ -1,7 +1,7 @@
 import TransactionsRow from "./TransactionsRow";
 import './Transactions.css';
-import { getAllPayments, getAllPaymentsAxiosVersion, getAllPaymentsFetchVersion, getAllPaymentsForCountry, getCountries } from "../../data/DataFunctions";
-import { Fragment, useEffect, useState } from "react";
+import { getAllPaymentsForCountry, getAllPaymentsForOrderId, getCountries } from "../../data/DataFunctions";
+import { useEffect, useState } from "react";
 
 const TransactionsTable = (props) => {
 
@@ -12,7 +12,20 @@ const TransactionsTable = (props) => {
         loadCountries();
     } , []);
 
-    useEffect( () => {}, [props.searchTerm]  );
+    useEffect( () => {
+        if(props.searchTerm !== "") {
+            setIsLoading(true);
+            getAllPaymentsForOrderId(props.searchTerm)
+                .then( response => {
+                        setPayments(response.data);
+                        setIsLoading(false);
+                } )
+                .catch ( error => {
+                    console.log("something went wrong", error);
+                })
+        }
+
+    }, [props.searchTerm]  );
 
     const [uniqueCountries, setUniqueCountries] = useState([])
 
@@ -64,7 +77,7 @@ const TransactionsTable = (props) => {
     }
 
 return (<>
-    {!isLoading && <div className="transactionsCountrySelector">
+    {!isLoading && props.searchTerm === "" && <div className="transactionsCountrySelector">
         Select country: <select onChange={changeCountry} defaultValue={selectedCountry}>
             <option value="" disabled={true}> ---select---</option>
             {uniqueCountries.map (country => <option key={country} value={country}>{country}</option>)}
@@ -92,11 +105,11 @@ return (<>
             }   ) 
             */ 
             }
-
-            {payments
-                .filter (payment => payment.country === selectedCountry)
+            
+            {   payments
+                .filter (payment => props.searchTerm !== "" || payment.country === selectedCountry)
                 .map( (payment, index) => {
-                return selectedCountry && <TransactionsRow key={index} id={payment.id} date={payment.date}
+                return <TransactionsRow key={index} id={payment.id} date={payment.date}
                 country = {payment.country}  currency = {payment.currency} orderId={payment.orderId}
                 amount={payment.amount}   />
             }   )   }

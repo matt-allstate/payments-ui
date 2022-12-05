@@ -43,6 +43,13 @@ export const getAllPaymentsForCountry  = (country) => {
             })
 }
 
+export const getAllPaymentsForOrderId  = (orderId) => {
+    return axios({url : "http://localhost:8080/api/payment?order="+orderId,
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
+
 export const getCountries = ()  => {
     console.log("getcountries")
     return axios({url : "http://localhost:8080/api/country",
