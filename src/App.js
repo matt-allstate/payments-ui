@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import AddTransaction from './components/AddTransaction/AddTransaction';
 import Menu from './components/Menu';
 import Search from './components/Search';
 import TransactionsTable from './components/Transactions/TransactionsTable';
@@ -11,6 +12,7 @@ function App() {
   return (
     <div>
       <Menu />
+      <AddTransaction />
       <Search setSearchTerm={setSearchTerm} />
       <TransactionsTable searchTerm={searchTerm}  />
     </div>
