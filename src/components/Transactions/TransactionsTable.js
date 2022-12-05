@@ -3,7 +3,7 @@ import './Transactions.css';
 import { getAllPayments, getAllPaymentsAxiosVersion, getAllPaymentsFetchVersion, getAllPaymentsForCountry, getCountries } from "../../data/DataFunctions";
 import { Fragment, useEffect, useState } from "react";
 
-const TransactionsTable = () => {
+const TransactionsTable = (props) => {
 
     const [payments, setPayments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -11,6 +11,8 @@ const TransactionsTable = () => {
     useEffect( () => {
         loadCountries();
     } , []);
+
+    useEffect( () => {}, [props.searchTerm]  );
 
     const [uniqueCountries, setUniqueCountries] = useState([])
 

@@ -11,8 +11,8 @@ function App() {
   return (
     <div>
       <Menu />
-      <Search setSearchTerm={setSearchTerm} searchTerm={searchTerm}  />
-      <TransactionsTable />
+      <Search setSearchTerm={setSearchTerm} />
+      <TransactionsTable searchTerm={searchTerm}  />
     </div>
   );
 }
