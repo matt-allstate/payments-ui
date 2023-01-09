@@ -11,7 +11,7 @@ useEffect( ()=> {
     if (params.orderId != null && params.orderId !== props.searchTerm) {
         props.setSearchTerm(params.orderId);
     }
-} , [params.orderId]);
+} , [params]);
 
 return (
     <>

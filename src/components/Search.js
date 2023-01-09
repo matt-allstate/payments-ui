@@ -38,6 +38,7 @@ const Search = (props) => {
             <label htmlFor="orderId" >Order Id</label>
             <input onChange={handleChange} value={localSearchTerm} id="orderId" type="text"
                 style ={{border: valid ? "1px solid #000" : "2px solid #f00"}}
+                className={valid ? "" : "searchBoxError"}
             />
             <button type="submit" disabled={!valid || !touched}>Search</button>
             <button onClick={clearForm} >Reset</button>

@@ -78,13 +78,13 @@ const TransactionsTable = (props) => {
             setSelectedCountry(country);
             loadData(country);
         }
-     }, [] );
+     }, [searchParams] );
 
     const changeCountry = (event) => {
         const country = event.target.value;
-        setSelectedCountry(country);
-        setIsLoading(true)
-        loadData(country);
+        //setSelectedCountry(country);
+        //setIsLoading(true)
+        //loadData(country);
         setSearchParams({"country" : country});
     }
 

@@ -3,9 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import AddTransaction from './components/AddTransaction/AddTransaction';
 import Menu from './components/Menu';
-import Search from './components/Search';
 import FindTransactionsPage from './components/Transactions/FindTransactionsPage';
-import TransactionsTable from './components/Transactions/TransactionsTable';
 
 function App() {
 
@@ -23,7 +21,7 @@ function App() {
           <FindTransactionsPage searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> }
         />
         <Route path="/" element = { <h1>Welcome to the Payments system</h1>}/>
-        <Route path="*" element = { <h1>Sorry - that page doesn't exist</h1>}/>
+        <Route path="*" element = { <><h1>Sorry - that page doesn't exist</h1><p>Page not found</p></>}/>
       </Routes>     
     </BrowserRouter>
   );
