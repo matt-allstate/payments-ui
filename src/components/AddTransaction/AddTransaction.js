@@ -1,5 +1,6 @@
 import { useReducer, useState } from 'react'
 import { addNewTransaction } from '../../data/DataFunctions'
+import CountrySelector from '../CountrySelector';
 import './AddTransaction.css'
 
 const AddTransaction = () => {
@@ -26,6 +27,10 @@ const AddTransaction = () => {
         //event.target.id = the field
        // event.target.value  = the value
        dispatch({field : event.target.id, value : event.target.value});
+    }
+
+    const changeCountry = (country) => {
+        dispatch({field : "country", value : country});
     }
 
     const handleSubmit = (event) => {
@@ -55,7 +60,7 @@ const AddTransaction = () => {
         <label htmlFor="date">Date</label>
         <input type="date" id="date" value={newTransaction.date} onChange={handleChange}/>
         <br/>
-        <label htmlFor="country">Country</label>
+        <CountrySelector value={newTransaction.country} changeCountry={changeCountry} />
         <input type="text" id="country" value={newTransaction.country} onChange={handleChange} />
         <br/>
         <label htmlFor="currency">Currency</label>

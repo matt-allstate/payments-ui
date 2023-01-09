@@ -13,7 +13,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     if (action.type === "updateCountries") {
-        return {...state, countries : action.value, lastFetch: new Date()}
+        return {...state, countries : action.value, lastFetch: new Date().getTime() }
     } 
     if (action.type === "logout") {
         return {...state, currentUser : {}}
