@@ -1,10 +1,12 @@
 import TransactionsRow from "./TransactionsRow";
 import './Transactions.css';
 import { getAllPaymentsForCountry, getAllPaymentsForOrderId, getCountries } from "../../data/DataFunctions";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from 'react-router-dom';
 
+
 import CountrySelector from "../CountrySelector";
+import { UserContext } from "../../contexts/UserContext";
 
 const TransactionsTable = (props) => {
 
@@ -12,6 +14,8 @@ const TransactionsTable = (props) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const [searchParams, setSearchParams] = useSearchParams();
+
+    const currentUser = useContext(UserContext);
 
     useEffect( () => {
         if(props.searchTerm !== "") {
@@ -29,8 +33,8 @@ const TransactionsTable = (props) => {
     }, [props.searchTerm]  );
 
     const loadData = (country) => {
-        
-        getAllPaymentsForCountry(country)
+        console.log(currentUser);
+        getAllPaymentsForCountry(country, currentUser.user.name, currentUser.user.password)
             .then ( response => {
                 if (response.status === 200) {
                     setIsLoading(false);

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import { login } from "../data/DataFunctions";
 
 const Login = () => {
 
@@ -22,10 +23,14 @@ const Login = () => {
     const submitForm = (event) => {
         event.preventDefault();
         //simualte a rest call to do the login
-        
-        currentUser.setUser({name : username, role : "admin"});
-
-        navigate("/");
+        login(username, password).then (
+            result => {
+                console.log(result)
+                currentUser.setUser({name : result.data.username, role : result.data.role, password: password});
+                navigate("/");
+            }
+        )
+        .catch( error => console.log("login didn't work"));
     }
 
     return (<form onSubmit={submitForm} >
